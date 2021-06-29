@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:lr_tracker/services/auth_service.dart';
-import 'package:lr_tracker/views/home_screen.dart';
+import 'package:lr_tracker/views/log_in.dart';
 
-class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+class Signup extends StatefulWidget {
+  const Signup({Key? key}) : super(key: key);
 
   @override
-  _LoginState createState() => _LoginState();
+  _SignupState createState() => _SignupState();
 }
 
-class _LoginState extends State<Login> {
+class _SignupState extends State<Signup> {
   TextEditingController emailTextEditingController =
       new TextEditingController();
   TextEditingController passwordTextEditingController =
       new TextEditingController();
+  TextEditingController nameTextEditingController = new TextEditingController();
+  TextEditingController phoneTextEditingController =
+      new TextEditingController();
   final formkeys = GlobalKey<FormState>();
-  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +35,15 @@ class _LoginState extends State<Login> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    "126 Jarvis",
-                    style: TextStyle(color: Colors.black, fontSize: 40),
+                    "Sign Up",
+                    style: TextStyle(color: Colors.white, fontSize: 40),
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   Text(
-                    "Welcomes you back",
-                    style: TextStyle(color: Colors.black, fontSize: 18),
+                    "Let's get Started!",
+                    style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
                 ],
               ),
@@ -82,6 +86,24 @@ class _LoginState extends State<Login> {
                                           border: Border(bottom: BorderSide())),
                                       child: TextFormField(
                                         // validator: (val) {
+                                        //   return val.isEmpty
+                                        //       ? "Please Enter a Name"
+                                        //       : null;
+                                        // },
+                                        controller: nameTextEditingController,
+                                        decoration: InputDecoration(
+                                            hintText: "Name",
+                                            hintStyle:
+                                                TextStyle(color: Colors.grey),
+                                            border: InputBorder.none),
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                          border: Border(bottom: BorderSide())),
+                                      child: TextFormField(
+                                        // validator: (val) {
                                         //   return RegExp(
                                         //               r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                         //           .hasMatch(val)
@@ -102,10 +124,34 @@ class _LoginState extends State<Login> {
                                           border: Border(bottom: BorderSide())),
                                       child: TextFormField(
                                         obscureText: true,
+                                        // validator: (val) {
+                                        //   return val.length > 6
+                                        //       ? null
+                                        //       : "Enter Password 6+ characters";
+                                        // },
                                         controller:
                                             passwordTextEditingController,
                                         decoration: InputDecoration(
                                             hintText: "Password",
+                                            hintStyle:
+                                                TextStyle(color: Colors.grey),
+                                            border: InputBorder.none),
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                          border: Border(bottom: BorderSide())),
+                                      child: TextFormField(
+                                        obscureText: true,
+                                        // validator: (val) {
+                                        //   return val.length > 6
+                                        //       ? null
+                                        //       : "Enter a valid phone number";
+                                        // },
+                                        controller: phoneTextEditingController,
+                                        decoration: InputDecoration(
+                                            hintText: "Phone Number",
                                             hintStyle:
                                                 TextStyle(color: Colors.grey),
                                             border: InputBorder.none),
@@ -121,36 +167,7 @@ class _LoginState extends State<Login> {
                           height: 40,
                         ),
                         GestureDetector(
-                          onTap: () {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) =>
-                            //             forgotPassword()));
-                          },
-                          child: Container(
-                            padding: EdgeInsets.fromLTRB(200, 0, 0, 0),
-                            child: Text(
-                              "Forgot Password?",
-                              style: TextStyle(color: Colors.grey),
-                              textAlign: TextAlign.end,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 40,
-                        ),
-                        GestureDetector(
-                            onTap: () async {
-                              signInWithGoogle().catchError((onError) {
-                                print(onError);
-                              }).then((_) {
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Home()));
-                              });
-                            },
+                            onTap: () {},
                             child: Container(
                               height: 50,
                               margin: EdgeInsets.symmetric(horizontal: 50),
@@ -159,7 +176,7 @@ class _LoginState extends State<Login> {
                                   color: Colors.orange[900]),
                               child: Center(
                                 child: Text(
-                                  "Login",
+                                  "Sign Up",
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold),
@@ -170,7 +187,7 @@ class _LoginState extends State<Login> {
                           height: 50,
                         ),
                         Text(
-                          "Do not have an Account?",
+                          "Have an Account?",
                           style: TextStyle(color: Colors.grey),
                         ),
                         SizedBox(
@@ -180,7 +197,12 @@ class _LoginState extends State<Login> {
                           children: <Widget>[
                             Expanded(
                               child: GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Login()));
+                                  },
                                   child: Container(
                                     height: 50,
                                     decoration: BoxDecoration(
@@ -188,7 +210,7 @@ class _LoginState extends State<Login> {
                                         color: Colors.black),
                                     child: Center(
                                       child: Text(
-                                        "Sign Up",
+                                        "Log In",
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold),
